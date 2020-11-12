@@ -54,10 +54,6 @@ class State
 	public void setNext(State element){
 		next = element;
 	}
-	//DEN XREIAZETAI
-	public String toString(){
-		return "row:"+row+" column:"+column;
-	}
 	
 	public String getMove(){
 		return move;

@@ -5,7 +5,7 @@ package main;
 
 class StackOfStates
 {
-	private State head=null;
+	private State head = null;
 	private int size = 0;
 	
 	public State pop(){
@@ -24,20 +24,13 @@ class StackOfStates
 		element.setNext(head);
 		head = element;
 		
-		if(size!=0){
-			if(element.getNext().getMove().equals("down")){
-				element.getMoveset()[0]="";
-			}
-			else if(element.getNext().getMove().equals("up")){
-				element.getMoveset()[1]="";
-			}
-			else if(element.getNext().getMove().equals("right")){
-				element.getMoveset()[2]="";
-			}
-			else if(element.getNext().getMove().equals("left")){
-				element.getMoveset()[3]="";
-			}
-		}
+		String[] directions = { "up", "down", "left", "right" }; 
+		int noOfDirections = 4;
+		
+		if(size!=0)
+			for(int i=0; i<noOfDirections; i++)
+				if(element.getNext().getMove().equals(directions[i]))
+					element.getMoveset()[i]="";	
 		size ++;
 	}
 	

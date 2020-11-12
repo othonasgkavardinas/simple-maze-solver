@@ -26,59 +26,33 @@ class Maze
 		int currentC = 0;
 		boolean flag;
 		
+		String[] directions = { "up", "down", "left", "right" }; 
+		int noOfDirections = 4;
+		int[] directionsR = { currentR-1, currentR+1, currentR, currentR };
+		int[] directionsC = { currentC, currentC, currentC-1, currentC+1 };
+		
 		myStack.push(currentR,currentC,rows,columns);
+		
 		while(true){
 			movesSize=0;
 			
-			if(myStack.getHead().getMoveset()[0].equals("up")){ //DIMIOURGIA
-				if(labyrinth[currentR-1][currentC]){
-					movesSize+=1;
-				}else myStack.getHead().getMoveset()[0]="";
-			}
-			if(myStack.getHead().getMoveset()[1].equals("down")){
-				if(labyrinth[currentR+1][currentC]){
-					movesSize+=1;
-				}else myStack.getHead().getMoveset()[1]="";
-			}
-			if(myStack.getHead().getMoveset()[2].equals("left")){
-				if(labyrinth[currentR][currentC-1]){
-					movesSize+=1;
-				}else myStack.getHead().getMoveset()[2]="";
-			}
-			if(myStack.getHead().getMoveset()[3].equals("right")){
-				if(labyrinth[currentR][currentC+1]){
-					movesSize+=1;
-				}else myStack.getHead().getMoveset()[3]="";
-			}
+			for(int i=0; i<noOfDirections; i++)
+				if(myStack.getHead().getMoveset()[i].equals(directions[i])){ //DIMIOURGIA
+					if(labyrinth[directionsR[i]][directionsC[i]])
+						movesSize+=1;
+					else
+						myStack.getHead().getMoveset()[i]="";
+				}
 			
-			//System.out.println(myStack.getHead());
-			//System.out.println(myStack.getHead().getMoveset()[0]+" "+myStack.getHead().getMoveset()[1]+" "+myStack.getHead().getMoveset()[2]+" "+myStack.getHead().getMoveset()[3]);
 			flag=true;
 			
-			if (myStack.getHead().getMoveset()[0].equals("up") && flag){ //1H KINHSH
-				currentR-=1;
-				myStack.getHead().getMoveset()[0]="";
-				myStack.getHead().setMove("up");
-				flag=false;
-			}
-			if (myStack.getHead().getMoveset()[1].equals("down") && flag){
-				currentR+=1;
-				myStack.getHead().getMoveset()[1]="";
-				myStack.getHead().setMove("down");
-				flag=false;
-			}
-			if (myStack.getHead().getMoveset()[2].equals("left") && flag){
-				currentC-=1;
-				myStack.getHead().getMoveset()[2]="";
-				myStack.getHead().setMove("left");
-				flag=false;
-			}
-			if (myStack.getHead().getMoveset()[3].equals("right") && flag){
-				currentC+=1;
-				myStack.getHead().getMoveset()[3]="";
-				myStack.getHead().setMove("right");
-				flag=false;
-			}
+			for(int i=0; i<noOfDirections; i++)
+				if (myStack.getHead().getMoveset()[i].equals(directions[i]) && flag){ //1H KINHSH
+					currentR-=1;
+					myStack.getHead().getMoveset()[i]="";
+					myStack.getHead().setMove(directions[i]);
+					flag=false;
+				}
 			
 			if(movesSize>1){ //AN PERISSOTERES APO MIA
 				moreStates.add(myStack.getHead());
@@ -86,26 +60,22 @@ class Maze
 			}
 			
 			if(movesSize==0){ //AN 0 KINISEIS
-				if(moreStates.size()==0){ //DEN LYNETAI
+				if(moreStates.size()==0) //DEN LYNETAI
 					return false;
-				}
 				else{ //ALLH DOKIMH
-					while(myStack.getHead() != moreStates.get(last-1)){
+					while(myStack.getHead() != moreStates.get(last-1))
 						myStack.pop();
-					}
 					currentR=myStack.getHead().getRow();
 					currentC=myStack.getHead().getColumn();
 					moreStates.remove(last-1);
 					last-=1;
 				}
-			}else{ //KINISI
+			}else //KINISI
 				if(!myStack.inStack(currentR,currentC)){
 					myStack.push(currentR,currentC,rows,columns);
-					if(currentR==rows-1 && currentC==columns-1){ //LYNETAI
+					if(currentR==rows-1 && currentC==columns-1) //LYNETAI
 						return true;
-					}
 				}
-			}
 		}
 	}	
 	
@@ -115,7 +85,6 @@ class Maze
 			for (int j=0; j<labyrinth[0].length; j++){
 				if(labyrinth[i][j]) tempString+="0";
 				else tempString+="1";
-				
 				if(j!=columns) tempString+=" ";
 			}
 			tempString+="\n";
@@ -127,12 +96,11 @@ class Maze
 		String tempString = "";
 		State tempState;
 		String[][] tempArray = new String[rows][columns];
-		for (int i=0; i<labyrinth.length; i++){
+		for (int i=0; i<labyrinth.length; i++)
 			for (int j=0; j<labyrinth[0].length; j++){
 				if(labyrinth[i][j]) tempArray[i][j]="0";
 				else tempArray[i][j] ="1";
 			}
-		}
 		
 		while(!myStack.isEmpty()){
 			tempState = myStack.pop();
@@ -148,5 +116,4 @@ class Maze
 		}
 		System.out.println(tempString);
 	}
-	
 }
