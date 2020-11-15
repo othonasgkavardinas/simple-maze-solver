@@ -1,4 +1,4 @@
-# maze-solver-assignment
+# simple-maze-solver-assignment
 
 ## Επίλυση σε Λαβύρινθο
 Τεχνικές Αντικειμενοστραφούς Προγραμματισμού (Assignment 2)  
