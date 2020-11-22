@@ -3,10 +3,8 @@
 
 package main;
 
-class MazeTest
-{
-	public static void main(String args[])
-	{
+public class MazeTest {
+	public static void main(String args[]) {
 		int digitsmaze[][] = { 	{0,1,0,0,0,0},
 								{0,1,0,0,1,0},
 								{0,1,1,1,1,0},

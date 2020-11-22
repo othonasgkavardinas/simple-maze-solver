@@ -5,17 +5,18 @@ package main;
 
 import java.util.ArrayList;
 
-class Maze
+public class Maze
 {
 	private boolean labyrinth[][];
 	private int rows;
 	private int columns;
-	private StackOfStates myStack = new StackOfStates();
+	private StackOfStates myStack;
 	
 	public Maze(int rows, int columns, boolean[][] labyrinth){
 		this.rows = rows;
 		this.columns = columns;
 		this.labyrinth = labyrinth;
+		myStack = new StackOfStates();
 	}
 	
 	public boolean solve(){
@@ -24,7 +25,6 @@ class Maze
 		int movesSize;
 		int currentR = 0;
 		int currentC = 0;
-		boolean flag;
 		
 		String[] directions = { "up", "down", "left", "right" }; 
 		int noOfDirections = 4;
@@ -34,50 +34,69 @@ class Maze
 		myStack.push(currentR,currentC,rows,columns);
 		
 		while(true){
-			movesSize=0;
-			
+			movesSize = 0;
+			System.out.println(currentR + " " + currentC);
 			for(int i=0; i<noOfDirections; i++)
-				if(myStack.getHead().getMoveset()[i].equals(directions[i])){ //DIMIOURGIA
-					if(labyrinth[directionsR[i]][directionsC[i]])
-						movesSize+=1;
-					else
-						myStack.getHead().getMoveset()[i]="";
-				}
+				if(myStack.getHead().getMoveset()[i].equals(directions[i])) 	//Creation
+					if(directionsR[i]>=0 && directionsC[i]>=0){
+						if(labyrinth[directionsR[i]][directionsC[i]])
+							movesSize++;
+						else
+							myStack.getHead().getMoveset()[i]="";
+					}
 			
-			flag=true;
-			
-			for(int i=0; i<noOfDirections; i++)
-				if (myStack.getHead().getMoveset()[i].equals(directions[i]) && flag){ //1H KINHSH
-					currentR-=1;
+			for(int i=0; i<noOfDirections; i++) {
+				System.out.println(myStack.getHead().getMoveset()[i]);
+				if (myStack.getHead().getMoveset()[i].equals(directions[i])){ 	//First Move
+					int[] move = translateMove(currentR, currentC, directions[i]);
+					currentR = move[0];
+					currentC = move[1];
 					myStack.getHead().getMoveset()[i]="";
 					myStack.getHead().setMove(directions[i]);
-					flag=false;
+					break;
 				}
-			
-			if(movesSize>1){ //AN PERISSOTERES APO MIA
-				moreStates.add(myStack.getHead());
-				last+=1;
 			}
 			
-			if(movesSize==0){ //AN 0 KINISEIS
-				if(moreStates.size()==0) //DEN LYNETAI
+			if(movesSize>1){ 						//More than one moves
+				moreStates.add(myStack.getHead());
+				last++;
+			}
+			
+			if(movesSize==0){ 						//Zero Moves
+				if(moreStates.size()==0) 			//Cannot be solved
 					return false;
-				else{ //ALLH DOKIMH
+				else{ 								//Next test
 					while(myStack.getHead() != moreStates.get(last-1))
 						myStack.pop();
-					currentR=myStack.getHead().getRow();
-					currentC=myStack.getHead().getColumn();
+					currentR = myStack.getHead().getRow();
+					currentC = myStack.getHead().getColumn();
 					moreStates.remove(last-1);
-					last-=1;
+					last--;
 				}
-			}else //KINISI
+			}else { 									//Then Move
 				if(!myStack.inStack(currentR,currentC)){
-					myStack.push(currentR,currentC,rows,columns);
-					if(currentR==rows-1 && currentC==columns-1) //LYNETAI
+					myStack.push(currentR, currentC, rows, columns);
+					if(currentR==rows-1 && currentC==columns-1) //It can be solved
 						return true;
 				}
+			}
 		}
 	}	
+	
+	private int[] translateMove(int currentR, int currentC, String direction) {
+		switch(direction) {
+			case "up":
+				return new int[] { currentR-1, currentC };
+			case "down":
+				return new int[] { currentR+1, currentC };
+			case "left":
+				return new int[] { currentR, currentC-1 };
+			case "right":
+				return new int[] { currentR, currentC+1 };
+			default:
+				return null;
+		}
+	}
 	
 	public String toString(){
 		String tempString = "";

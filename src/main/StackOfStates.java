@@ -3,19 +3,20 @@
 
 package main;
 
-class StackOfStates
-{
-	private State head = null;
+import lombok.Getter;
+import lombok.Setter;
+
+public class StackOfStates{
+	private @Setter @Getter State head = null;
 	private int size = 0;
 	
 	public State pop(){
-		if(size==0){
+		if((size--)==0){
 			System.out.println("Pop from empty stack");
 			System.exit(-1);
 		}
 		State tempHead = head;
 		head = head.getNext();
-		size --;
 		return tempHead;
 	}
 	
@@ -26,12 +27,10 @@ class StackOfStates
 		
 		String[] directions = { "up", "down", "left", "right" }; 
 		int noOfDirections = 4;
-		
-		if(size!=0)
+		if((size++)!=0)
 			for(int i=0; i<noOfDirections; i++)
 				if(element.getNext().getMove().equals(directions[i]))
-					element.getMoveset()[i]="";	
-		size ++;
+					element.getMoveset()[i]="";
 	}
 	
 	public boolean isEmpty(){
@@ -49,14 +48,6 @@ class StackOfStates
 		}
 		head = tempHead;
 		return false;
-	}
-	
-	public State getHead(){
-		return head;
-	}
-	
-	public void setHead(State head){
-		this.head = head;
 	}
 	
 }
