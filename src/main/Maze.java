@@ -11,6 +11,7 @@ public class Maze
 	private int rows;
 	private int columns;
 	private StackOfStates myStack;
+	public static String[] DIRECTIONS = { "up", "down", "left", "right" };
 	
 	public Maze(int rows, int columns, boolean[][] labyrinth){
 		this.rows = rows;
@@ -26,33 +27,31 @@ public class Maze
 		int currentR = 0;
 		int currentC = 0;
 		
-		String[] directions = { "up", "down", "left", "right" }; 
-		int noOfDirections = 4;
-		int[] directionsR = { currentR-1, currentR+1, currentR, currentR };
-		int[] directionsC = { currentC, currentC, currentC-1, currentC+1 };
-		
+		int[] directionsR;
+		int[] directionsC;
+
 		myStack.push(currentR,currentC,rows,columns);
 		
 		while(true){
+			directionsR = new int[]{ currentR-1, currentR+1, currentR, currentR };
+			directionsC = new int[]{ currentC, currentC, currentC-1, currentC+1 };
+
 			movesSize = 0;
-			System.out.println(currentR + " " + currentC);
-			for(int i=0; i<noOfDirections; i++)
-				if(myStack.getHead().getMoveset()[i].equals(directions[i])) 	//Creation
-					if(directionsR[i]>=0 && directionsC[i]>=0){
-						if(labyrinth[directionsR[i]][directionsC[i]])
-							movesSize++;
-						else
-							myStack.getHead().getMoveset()[i]="";
-					}
+			for(int i=0; i<DIRECTIONS.length; i++)
+				if(myStack.getHead().getMoveset()[i].equals(DIRECTIONS[i])) { 	//Creation
+					if(labyrinth[directionsR[i]][directionsC[i]])
+						movesSize++;
+					else
+						myStack.getHead().getMoveset()[i]="";
+				}
 			
-			for(int i=0; i<noOfDirections; i++) {
-				System.out.println(myStack.getHead().getMoveset()[i]);
-				if (myStack.getHead().getMoveset()[i].equals(directions[i])){ 	//First Move
-					int[] move = translateMove(currentR, currentC, directions[i]);
+			for(int i=0; i<DIRECTIONS.length; i++) {
+				if (myStack.getHead().getMoveset()[i].equals(DIRECTIONS[i])){ 	//First Move
+					int[] move = translateMove(currentR, currentC, DIRECTIONS[i]);
 					currentR = move[0];
 					currentC = move[1];
 					myStack.getHead().getMoveset()[i]="";
-					myStack.getHead().setMove(directions[i]);
+					myStack.getHead().setMove(DIRECTIONS[i]);
 					break;
 				}
 			}

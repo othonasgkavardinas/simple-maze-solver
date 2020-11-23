@@ -25,12 +25,11 @@ public class StackOfStates{
 		element.setNext(head);
 		head = element;
 		
-		String[] directions = { "up", "down", "left", "right" }; 
-		int noOfDirections = 4;
 		if((size++)!=0)
-			for(int i=0; i<noOfDirections; i++)
-				if(element.getNext().getMove().equals(directions[i]))
-					element.getMoveset()[i]="";
+			for(int i=0; i<Maze.DIRECTIONS.length; i++)
+				if(element.getNext().getMove().equals(Maze.DIRECTIONS[i]))
+					element.removeOpositeMove(Maze.DIRECTIONS[i]);
+					
 	}
 	
 	public boolean isEmpty(){
