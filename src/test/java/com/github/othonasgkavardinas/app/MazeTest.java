@@ -1,12 +1,11 @@
-package test;
+package com.github.othonasgkavardinas.app;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import main.Maze;
-
-class MazeTest {
+public class MazeTest {
 
 	@Test
 	public void test() {

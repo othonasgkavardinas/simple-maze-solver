@@ -1,12 +1,10 @@
-package test;
+package com.github.othonasgkavardinas.app;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertArrayEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import main.State;
-
-class StateTest {
+public class StateTest {
 
 	@Test
 	public void stateTest() {
